@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import mongoose from 'mongoose';
 import { InventoryModel } from './models/inventory.model';
 
@@ -52,7 +51,7 @@ async function initApp() {
 
     // const newInventory = new InventoryModel({
     //     description: 'Shampoing pour Stéphane',
-    //     sku: 'instant-hair-regrowth'
+    //     sku: 1622
     // });
 
     // // try {
