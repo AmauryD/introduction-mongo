@@ -1,21 +1,18 @@
 import mongoose from 'mongoose';
-import { InventoryModel } from './models/inventory.model';
+import { inspect } from 'util';
+import { OrderModel } from './models/order.model';
+require('./models/inventory.model');
 
 mongoose.set('debug', true);
 
-//const OrderSchema = new mongoose.Schema({
-    // la colonne est une relation (similaire est une clé étrangère)
-    // item : {
-    //     type : ObjectId,
-    //     ref: 'inventory',
-    // }
-//});
 
+/* APP INIT Partie 1 
+ - Ex find , update ,remove , save, ...
 async function initApp() {
-    const connection = await mongoose.connect('mongodb://localhost/store', {
+    const connection = await mongoose.connect("mongodb://localhost/store", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex : true,
+        useCreateIndex: true,
         useFindAndModify: false
     });
 
@@ -42,12 +39,11 @@ async function initApp() {
     // );
 
     const leShampoingDeStephane = await InventoryModel.findOne({
-        sku: 'instant-hair-regrowth'
+        sku: "instant-hair-regrowth"
     });
 
     leShampoingDeStephane.instock++;
     await leShampoingDeStephane.save();
-    
 
     // const newInventory = new InventoryModel({
     //     description: 'Shampoing pour Stéphane',
@@ -66,7 +62,24 @@ async function initApp() {
     //     console.log(chalk.red('Votre modèle n\'est pas valide : ', e.message));
     // }
 
-    console.log('Connected to mongo database', connection.version);
+    console.log("Connected to mongo database", connection.version);
+}
+*/
+
+/** APP INIT PART 2 */
+async function initApp() {
+    const connection = await mongoose.connect('mongodb://localhost/store', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    });
+
+    console.log('Connected to database', connection.version);
+
+    const orders = await OrderModel.find().populate('inventoryItem');
+
+    console.log(inspect(orders, false, null, true));
 }
 
 initApp().catch((e) => {
