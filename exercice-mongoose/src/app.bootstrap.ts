@@ -1,72 +1,46 @@
 import mongoose from 'mongoose';
-import { InventoryModel } from './models/inventory.model';
+import { MovieModel } from './models/movie.model';
 
 mongoose.set('debug', true);
 
-//const OrderSchema = new mongoose.Schema({
-    // la colonne est une relation (similaire est une clé étrangère)
-    // item : {
-    //     type : ObjectId,
-    //     ref: 'inventory',
-    // }
-//});
-
 async function initApp() {
-    const connection = await mongoose.connect('mongodb://localhost/store', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex : true,
-        useFindAndModify: false
+    const connection = await mongoose.connect(
+        'mongodb://localhost/technocite',
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false
+        }
+    );
+
+    console.log('Connected to mongoose', connection.version);
+
+    // Récupérer les 10 films les plus récents
+    const firstFilms = await MovieModel.find().sort({ year: -1 }).limit(10);
+
+    console.log(firstFilms);
+
+    const sebastienShow = new MovieModel({
+        id: 'tt9999999',
+        type: 'add',
+        directors: ['Amaury'],
+        title: 'Sébastien show',
+        rank: 500,
+        running_time_secs: 60,
+        actors: ['Sébastien'],
+        year: 2021
     });
 
-    // await InventoryModel.deleteMany({
-    //     sku: 'instant-hair-regrowth'
-    // });
+    // Ajouter un nouveau film qui a comme titre "Sébastien show" avec un rang de 500
+    await sebastienShow.save();
 
-    const inventories = await InventoryModel.find();
-    console.log(inventories);
+    // Réduire le rang de ce film de 100
+    sebastienShow.rank -= 100;
 
-    // const shampooingDeSteph = await InventoryModel.findOneAndUpdate(
-    //     {
-    //         sku: 'instant-hair-regrowth'
-    //     },
-    //     {
-    //         $inc: {
-    //             instock: 1
-    //         }
-    //     },
-    //     {
-    //         new: true,
-    //         upsert : true
-    //     }
-    // );
+    await sebastienShow.save();
 
-    const leShampoingDeStephane = await InventoryModel.findOne({
-        sku: 'instant-hair-regrowth'
-    });
-
-    leShampoingDeStephane.instock++;
-    await leShampoingDeStephane.save();
-    
-
-    // const newInventory = new InventoryModel({
-    //     description: 'Shampoing pour Stéphane',
-    //     sku: 1622
-    // });
-
-    // // try {
-    // //     await newInventory.validate();
-    // // }catch(e) {
-    // //     console.log(chalk.red('Votre modèle n\'est pas valide : ', e.message));
-    // // }
-
-    // try {
-    //     await newInventory.save();
-    // }catch(e) {
-    //     console.log(chalk.red('Votre modèle n\'est pas valide : ', e.message));
-    // }
-
-    console.log('Connected to mongo database', connection.version);
+    await sebastienShow.remove();
 }
 
 initApp().catch((e) => {
