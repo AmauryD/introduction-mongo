@@ -26,7 +26,7 @@ async function initApp() {
     // Récupérer les 10 films les plus récents
     const firstFilms = await MovieModel.find().sort({ year: -1 }).limit(10);
 
-
+    
 
     const sebastienShow = new MovieModel({
         id: 'tt9999999',

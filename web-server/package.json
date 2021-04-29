@@ -1,0 +1,43 @@
+{
+  "name": "tpknodeboilerplate",
+  "version": "0.0.1",
+  "description": "This package is the boilerplate to use in our company (TRIPTYK)",
+  "main": "index.ts",
+  "repository": "git@github.com:TRIPTYK/TPK-TS-NODE-BOILERPLATE.git",
+  "author": "gilles-bertrand <gilles@triptyk.eu>",
+  "license": "MIT",
+  "volta": {
+    "node": "14.16.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
+    "prettier-plugin-organize-imports": "^1.1.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only  ./src/app.bootstrap.ts",
+    "build": "rimraf ./dist && tsc"
+  },
+  "keywords": [
+    "eslint",
+    "prettier",
+    "typescript",
+    "node",
+    "triptyk",
+    "boilerplate"
+  ],
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "mongoose": "^5.12.6"
+  }
+}
