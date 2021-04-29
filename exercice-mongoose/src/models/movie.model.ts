@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import fs from 'fs/promises';
 import mongoose from 'mongoose';
 
 const MovieSchema = new mongoose.Schema({
@@ -83,7 +84,14 @@ MovieSchema.pre('save', function(this: any) {
 
 // à chaque fois qu'une entité est suavegardée , ajouter une ligne "Le film ${titre} a été sauvegadré à ${heure_de_mise_a_jour}" 
 // dans un fichier log "{date}.log"
-
+MovieSchema.post('save', async function (this:any) {
+    await fs.appendFile(
+        `${new Date().toDateString()}.log`,
+        `Le film ${
+            this.title
+        } a été sauvegardé à ${this.last_update.toISOString()}\n`
+    );
+});
 
 const MovieModel = mongoose.model<any, any>('movie', MovieSchema);
 
