@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import chalk from 'chalk';
 
 const MovieSchema = new mongoose.Schema({
     id: {
@@ -46,6 +47,33 @@ const MovieSchema = new mongoose.Schema({
     }
 });
 
-const MovieModel = mongoose.model('movie', MovieSchema);
+MovieSchema.methods.printBeautiful = function(this: any, showYear = true) {
+    return `
+        ---${this.title}---
+        Release : ${showYear ? this.year : 'Caché'}
+        Directors : ${this.directors.join(' | ')}
+    `;
+};
+
+MovieSchema.statics.everyMoviesExceptJusticeLeague = function(this: any) {
+    return this.find({
+        title: {
+            $ne: 'Justice League'
+        }
+    });
+};
+
+MovieSchema.virtual('titleInColor').get(function (this: any) {
+    return chalk.blue(this.title);
+});
+
+// Ceci est un example !
+// class Movie {
+//     static everyMoviesExceptJusticeLeague() {} // méthode statique 
+//     printBeautiful() {} // methode d'instance
+//     get TitleInRed() {} // virtual
+// } 
+
+const MovieModel = mongoose.model<any, any>('movie', MovieSchema);
 
 export { MovieModel };

@@ -16,10 +16,17 @@ async function initApp() {
 
     console.log('Connected to mongoose', connection.version);
 
+    const allExceptJustice = await MovieModel.everyMoviesExceptJusticeLeague();
+
+    console.log(
+        'Tout sauf justice league',
+        allExceptJustice.map((film) => film.titleInColor).join('\n')
+    );
+
     // Récupérer les 10 films les plus récents
     const firstFilms = await MovieModel.find().sort({ year: -1 }).limit(10);
 
-    console.log(firstFilms);
+
 
     const sebastienShow = new MovieModel({
         id: 'tt9999999',
