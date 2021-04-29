@@ -18,10 +18,10 @@ async function initApp() {
 
     const allExceptJustice = await MovieModel.everyMoviesExceptJusticeLeague();
 
-    console.log(
-        'Tout sauf justice league',
-        allExceptJustice.map((film) => film.titleInColor).join('\n')
-    );
+    // console.log(
+    //     'Tout sauf justice league',
+    //     allExceptJustice.map((film) => film.titleInColor).join('\n')
+    // );
 
     // Récupérer les 10 films les plus récents
     const firstFilms = await MovieModel.find().sort({ year: -1 }).limit(10);
@@ -47,7 +47,7 @@ async function initApp() {
 
     await sebastienShow.save();
 
-    await sebastienShow.remove();
+    // await sebastienShow.remove();
 }
 
 initApp().catch((e) => {

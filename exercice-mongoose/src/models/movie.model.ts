@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import chalk from 'chalk';
+import mongoose from 'mongoose';
 
 const MovieSchema = new mongoose.Schema({
     id: {
@@ -44,6 +44,9 @@ const MovieSchema = new mongoose.Schema({
     year: {
         type: Number,
         required: true
+    },
+    last_update: {
+        type : Date
     }
 });
 
@@ -73,6 +76,14 @@ MovieSchema.virtual('titleInColor').get(function (this: any) {
 //     printBeautiful() {} // methode d'instance
 //     get TitleInRed() {} // virtual
 // } 
+
+MovieSchema.pre('save', function(this: any) {
+    this.last_update = new Date();
+});
+
+// à chaque fois qu'une entité est suavegardée , ajouter une ligne "Le film ${titre} a été sauvegadré à ${heure_de_mise_a_jour}" 
+// dans un fichier log "{date}.log"
+
 
 const MovieModel = mongoose.model<any, any>('movie', MovieSchema);
 
